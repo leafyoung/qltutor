@@ -5,8 +5,7 @@
 #define BOOST_AUTO_TEST_MAIN
 
 #define BOOST_TEST_MODULE FV
-
-#include <boost/test/unit_test.hpp>
+#include "boost/test/unit_test.hpp"
 
 using namespace QuantLib;
 
@@ -22,5 +21,4 @@ BOOST_AUTO_TEST_CASE(testCalculateLoanPayment)
   Real payment = loanAmount + loan.accruedAmount(paymentDate);
   std::cout << "Payment due in " << lengthOfLoan << " days on loan amount of $ "
             << loanAmount << " at annual rate " << rate * 100 << "% is: $" << payment << std::endl;
-
 }

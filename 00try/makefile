@@ -1,9 +1,9 @@
-NAME      := term
+NAME      := try
 CPP_FILES := $(wildcard *.cpp)
 OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 CXX       := ccache g++
 LD_FLAGS  :=
-LD_FLAGS  := -L/usr/local/lib -lQuantLib -lboost_unit_test_framework-mt
+LD_FLAGS  := -L/usr/local/lib -lQuantLib
 # -lboost_system-clang35-mt-1_56
 # -lboost_thread-mt
 CC_FLAGS  := -O2 -Wno-deprecated-declarations -std=c++11 -I/usr/local/include

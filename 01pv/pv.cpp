@@ -5,7 +5,6 @@
 // #define BOOST_AUTO_TEST_MAIN
 
 #define BOOST_TEST_MAIN
-
 #define BOOST_TEST_MODULE PV
 
 #include <boost/test/unit_test.hpp>
@@ -20,4 +19,4 @@ BOOST_AUTO_TEST_CASE(testCalculateLoanPayment)
   Rate rate = .05;
   Real npv = CashFlows::npv(cashFlows, InterestRate(rate, ActualActual(), Compounded, Annual), true);
   std::cout << "Net Present Value (NPV) of cash flow is: " << npv << std::endl;
-
+}

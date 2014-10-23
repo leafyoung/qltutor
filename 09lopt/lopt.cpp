@@ -1,7 +1,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_AUTO_TEST_MAIN
 #define BOOST_TEST_MODULE LOPT
-// #include <boost/test/unit_test.hpp>
+#include <boost/test/unit_test.hpp>
 
 #include <ql/quantlib.hpp>
 #include <vector>
@@ -9,7 +9,9 @@
 // #include <function>
 #include <functional>
 
-// namespace {
+#include "er.hpp"
+
+namespace {
 
 using namespace QuantLib;
 
@@ -26,6 +28,7 @@ class PortfolioAllocationCostFunction : public CostFunction {
       QL_REQUIRE(x.size() == 2, "TWo bonds in portfolio!");
       Array values(1);
       values[0] = value(x);
+      return values;
     }
 };
 
@@ -56,8 +59,8 @@ class PortfolioAllocationConstraints : public Constraint {
     };
 };
 
-// BOOST_AUTO_TEST_CASE(testLinearOptimization)
-int main( int argc, char* argv[] )
+BOOST_AUTO_TEST_CASE(testLinearOptimization)
+// int main( int argc, char* argv[] )
 {
   PortfolioAllocationCostFunction portfolioAllocationCostFunction;
 
@@ -90,11 +93,11 @@ int main( int argc, char* argv[] )
   Simplex solver(.1);
 
   EndCriteria::Type solution = solver.minimize(bondAllocationProblem, endCriteria);
-  // std::cout << boost::format("Simplex solution type: %s") % solution << std::endl;
+  std::cout << boost::format("Simplex solution type: %s") % solution << std::endl;
 
   const Array& results = bondAllocationProblem.currentValue();
-  // std::cout << boost::format("Allocation %.2f percent to bond 1 and %.2f to bond 2.") % results[0] % results[1] << std::endl;
-  return 0;
+  std::cout << boost::format("Allocation %.2f percent to bond 1 and %.2f to bond 2.") % results[0] % results[1] << std::endl;
+//  return 0;
 }
 
-// }
+}

@@ -1,5 +1,5 @@
 
-SUBDIRS=$(shell find . -maxdepth 1 ! -path . -type d)
+SUBDIRS=$(shell find . -maxdepth 1 ! -path . -and ! -path './.git' -type d)
 
 .PHONY: subdirs $(SUBDIRS)
 

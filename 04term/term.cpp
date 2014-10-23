@@ -1,7 +1,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_AUTO_TEST_MAIN
-#define BOOST_TEST_MODULE IR
-#include <boost/test/unit_test.hpp>
+#define BOOST_TEST_MODULE TERM
+// #include <boost/test/unit_test.hpp>
 
 #include <ql/quantlib.hpp>
 #include <vector>
@@ -9,7 +9,8 @@
 
 using namespace QuantLib;
 
-BOOST_AUTO_TEST_CASE(testPriceBondWithFlatTermStructure)
+// BOOST_AUTO_TEST_CASE(testPriceBondWithFlatTermStructure)
+int main()
 {
   Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);
   const Natural settlementDays = 3;
@@ -28,4 +29,5 @@ BOOST_AUTO_TEST_CASE(testPriceBondWithFlatTermStructure)
   fixedRateBond.setPricingEngine(bondEngine);
   Real npv = fixedRateBond.NPV();
   std::cout << "NPV of bond is: " << npv << std::endl;
+  return 1;
 }

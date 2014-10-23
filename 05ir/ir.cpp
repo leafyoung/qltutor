@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(testInterestRateConversion)
   std::cout << "Rate with annual compounding is: " << effectiveRate.rate() << std::endl;
 
   //what is the equivalent semi-annual one year rate?
-  InterestRate semiAnnualCompoundingOneYearRate = 
+  InterestRate semiAnnualCompoundingOneYearRate =
     effectiveRate.equivalentRate(Compounded, Semiannual, 1);
   std::cout << "Equivalent one year semi-annually compounded rate is: " << semiAnnualCompoundingOneYearRate.rate() << std::endl;
 
