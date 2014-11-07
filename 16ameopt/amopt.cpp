@@ -111,4 +111,30 @@ boost::shared_ptr<ZeroCurve> bootstrapDividendCurve
   return boost::shared_ptr<ZeroCurve>(new ZeroCurve(exDivRates, dividendYields, ActualActual(), calendar));
 }
 
+//pricer
+
+BOOST_AUTO_TEST_CASE(testAmericanOptionPricingWithDividends) {
+  using namespace boost::assign;
+
+  //set up calendar/dates
+  Calendar calendar = UnitedStates(UnitedStates::NYSE);
+  Date today(15, Nov, 2013);
+  Real settlemenDays = 2;
+  Date settlement = calendar.advance(today, settlementDays, Days);
+  Settings::instance().evaluationDate() = today;
+
+  //define options to price
+  Option::Type type(Option::Call);
+  Real underlying = 24.52;
+
+  //INTC Feb 21 strikes
+  std::vector<Real> strikes;
+  strikes += 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0;
+
+  // volatility for each strike above
+  std::vector vols;
+  vols += .23356, .21369, .20657, .20128, .19917, .19978, .20117;
+
+}
+
 }
