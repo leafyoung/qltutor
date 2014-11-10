@@ -13,3 +13,7 @@ $(SUBDIRS):
 clean :
 	for d in $(SUBDIRS); do ($(MAKE) clean -C $$d); done
 
+test :
+	for d in $(SUBDIRS); do ($(MAKE) test -C $$d); done
+
+

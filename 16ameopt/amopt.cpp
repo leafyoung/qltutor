@@ -12,7 +12,6 @@
 #include <fstream>
 #include <cstdlib>
 #include <functional>
-// #include <numeric>
 
 #include <ql/quantlib.hpp>
 #include <boost/format.hpp>
@@ -119,7 +118,7 @@ BOOST_AUTO_TEST_CASE(testAmericanOptionPricingWithDividends) {
   //set up calendar/dates
   Calendar calendar = UnitedStates(UnitedStates::NYSE);
   Date today(15, Nov, 2013);
-  Real settlemenDays = 2;
+  Real settlementDays = 2;
   Date settlement = calendar.advance(today, settlementDays, Days);
   Settings::instance().evaluationDate() = today;
 
@@ -132,9 +131,35 @@ BOOST_AUTO_TEST_CASE(testAmericanOptionPricingWithDividends) {
   strikes += 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0;
 
   // volatility for each strike above
-  std::vector vols;
+  std::vector<Volatility> vols;
   vols += .23356, .21369, .20657, .20128, .19917, .19978, .20117;
 
+  Date expiration(21, Feb, 2014);
+
+  Date exDivDate(5, Feb, 2014);
+  Real annualDividend = .90;
+
+  Handle<YieldTermStructure> yieldTermStructure(bootstrapLiborZeroCurve(today));
+
+  Handle<YieldTermStructure> dividendTermStructure(bootstrapDividendCurve(today, expiration, exDivDate, underlying, annualDividend));
+
+  Handle<BlackVolTermStructure> volatilityTermStructure(bootstrapVolatilityCurve(today, strikes, vols, expiration));
+
+  Handle<Quote> underlyingH(boost::shared_ptr<Quote>(new SimpleQuote(underlying)));
+  boost::shared_ptr<BlackScholesMertonProcess> bsmProcess(new BlackScholesMertonProcess(underlyingH, dividendTermStructure, yieldTermStructure, volatilityTermStructure));
+
+  boost::shared_ptr<PricingEngine> pricingEngine(new FDAmericanEngine<CrankNicolson>(bsmProcess, 801, 800));
+
+  boost::shared_ptr<Exercise> americanExercise(new AmericanExercise(settlement, expiration));
+  for (Real strike : strikes) {
+    boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(type, strike));
+    VanillaOption americanOption(payoff, americanExercise);
+    americanOption.setPricingEngine(pricingEngine);
+    Real tv = americanOption.NPV();
+    std::cout << boost::format("Intel %s %.2f %s value: %.2f") % expiration % strike % type % tv << std::endl;
+    std::cout << boost::format("Delta: %.4f") % americanOption.delta() << std::endl;
+    std::cout << boost::format("Gamma: %.4f") % americanOption.gamma() << std::endl;
+  }
 }
 
 }
