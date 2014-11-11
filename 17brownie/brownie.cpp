@@ -28,13 +28,30 @@ Real studentTInverse() {
 }
 */
 
+/*
 using namespace boost::math::policies;
 using namespace boost::math;
+
+using boost::math::binomial_distribution;
+using boost::math::policies::policy;
+using boost::math::policies::discrete_quantile;
+
+using boost::math::policies::integer_round_outwards;
+using boost::math::policies::integer_round_down;
+using boost::math::policies::integer_round_up;
+using boost::math::policies::integer_round_nearest;
+using boost::math::policies::integer_round_inwards;
+using boost::math::policies::real;
 
 typedef binomial_distribution<
             double, 
             policy<discrete_quantile<integer_round_nearest> > > 
         binom_round_nearest;
+
+typedef binomial_distribution<
+            double,
+            policy<discrete_quantile<real> > >
+        binom_real_quantile;
 
 class InverseCumulativeNormal
   : public std::unary_function<Real,Real> {
@@ -43,18 +60,18 @@ class InverseCumulativeNormal
     InverseCumulativeNormal() {}
     // function
     Real operator()(Real p) const {
-      // return quantile(binom_round_nearest(50, 0.5), 0.95);
+      return quantile(binom_real_quantile(50, 0.5), 0.05);
       //quantile(students_t(5), 0.05);
-      quantile(binomial(50, 0.5), 0.05);
-      return 1.0;
+      //quantile(binomial(50, 0.5), 0.05);
+      // return quantile(students_t(5), 1.0);
       //return 1.0;
     }
   private:
     //boost::math::students_t d_;
 };
 
+*/
 // BOOST_AUTO_TEST_CASE(testGeometricBrownieMotion) {
-
 void testGeometricBrownieMotion() {
   Real startingPrice = 20.16;
   Real mu = .2312;
