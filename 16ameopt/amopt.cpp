@@ -1,6 +1,6 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_AUTO_TEST_MAIN
-#define BOOST_TEST_MODULE PORT
+#define BOOST_TEST_MODULE AMOPT
 #include <boost/test/unit_test.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/math/distributions.hpp>
@@ -21,16 +21,18 @@ namespace {
 using namespace QuantLib;
 
 // Volatility Surface
-boost::shared_ptr<BlackVolTermStructure> bootstrapVolatilityCurve(
-    const Date& evaluationDate
+boost::shared_ptr<BlackVolTermStructure> bootstrapVolatilityCurve
+  ( const Date& evaluationDate
   , const std::vector<Real>& strikes
   , const std::vector<Volatility>& vols
-  , const Date& expiration) {
+  , const Date& expiration )
+{
   Calendar calendar = UnitedStates(UnitedStates::NYSE);
 
   std::vector<Date> expirations;
   expirations.push_back(expiration);
 
+  //only ATM vol
   Matrix volMatrix(strikes.size(), 1);
 
   //implied volatilities from Interactive Brokers

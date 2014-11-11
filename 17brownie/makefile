@@ -1,4 +1,4 @@
-NAME      := duration
+NAME      := brownie
 CPP_FILES := $(wildcard *.cpp)
 OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 CXX       := ccache g++

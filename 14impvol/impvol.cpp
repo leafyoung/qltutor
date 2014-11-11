@@ -1,6 +1,6 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_AUTO_TEST_MAIN
-#define BOOST_TEST_MODULE PORT
+#define BOOST_TEST_MODULE IMPVOL
 #include <boost/test/unit_test.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/math/distributions.hpp>

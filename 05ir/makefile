@@ -19,3 +19,5 @@ clean:
 	if [ -d obj ]; then rm -fr obj; fi
 	if [ -f ${NAME}.exe ]; then rm -fr ${NAME}.exe; fi
 
+test: ${NAME}.exe
+	./${NAME}.exe
