@@ -10,6 +10,8 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/math/distributions.hpp>
+#include <boost/math/distributions/students_t.hpp>
+#include <boost/math/distributions/binomial.hpp>
 #include <boost/function.hpp>
 #include <boost/format.hpp>
 #include <functional>
@@ -21,11 +23,35 @@
 using namespace QuantLib;
 
 /*
-Real studentTInverse(const Real& p) {
-  boost::math::students_t d(5); 
+Real studentTInverse() {
   return boost::math::quantile(d, p);
 }
 */
+
+using namespace boost::math::policies;
+using namespace boost::math;
+
+typedef binomial_distribution<
+            double, 
+            policy<discrete_quantile<integer_round_nearest> > > 
+        binom_round_nearest;
+
+class InverseCumulativeNormal
+  : public std::unary_function<Real,Real> {
+  public:
+    // InverseCumulativeNormal( boost::math::students_t d) : d_(d) {}
+    InverseCumulativeNormal() {}
+    // function
+    Real operator()(Real p) const {
+      // return quantile(binom_round_nearest(50, 0.5), 0.95);
+      //quantile(students_t(5), 0.05);
+      quantile(binomial(50, 0.5), 0.05);
+      return 1.0;
+      //return 1.0;
+    }
+  private:
+    //boost::math::students_t d_;
+};
 
 // BOOST_AUTO_TEST_CASE(testGeometricBrownieMotion) {
 
@@ -86,6 +112,7 @@ void testGeometricBrownieMotion() {
   plot "C://TEMP/gbm.csv" using 1:2 w lines t "INTC simulated stock price"
   */
 
+/*
 // BOOST_AUTO_TEST_CASE(testGeometricBrowianMotionStudentT) {
 void testGeometricBrowianMotionStudentT() {
   Real startingPrice = 20.16;
@@ -102,11 +129,11 @@ void testGeometricBrowianMotionStudentT() {
   MersenneTwisterUniformRng mersenneRng(seed);
   RandomSequenceGenerator<MersenneTwisterUniformRng> rsg(timeSteps, mersenneRng);
 
-  // boost::math::students_t_distribution<> studentT(5);
+  boost::math::students_t_distribution<> studentT(5);
   boost::function<Real (Real)> icd = [](const Real& p) {
     boost::math::students_t studentT(5);
     return quantile(studentT, p); };
-    // boost::bind(studentTInverse, studentT, _1);
+    boost::bind(studentTInverse, studentT, _1);
 
   InverseCumulativeRsg<RandomSequenceGenerator<MersenneTwisterUniformRng>
     , boost::function<Real (Real)> > invCumRsg(rsg, icd);
@@ -143,6 +170,7 @@ void testGeometricBrowianMotionStudentT() {
   gbmFile.close();
 
 }
+*/
 
 /*
 BOOST_AUTO_TEST_CASE(testGeometricBrowianMotionStudentTHalton) {

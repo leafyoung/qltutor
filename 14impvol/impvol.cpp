@@ -38,6 +38,7 @@ class StrikeInfo {
 
     StrikeInfo& operator=(StrikeInfo that) {
       swap(*this, that);
+      return *this;
     }
 
     friend void swap(StrikeInfo& first, StrikeInfo& second) {
